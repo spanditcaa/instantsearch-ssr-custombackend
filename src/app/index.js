@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import PropTypes from 'prop-types';
 import {
   RefinementList,
@@ -10,24 +11,16 @@ import { createInstantSearch } from 'react-instantsearch/server';
 
 const customSearchClient = {
   search(requests) {
-    return fetch('http://localhost:8080/search', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ requests }),
-    }).then(res => res.json());
+    return axios
+      .post('http://localhost:8080/search', { requests })
+      .then(response => response.data);
   },
 
   searchForFacetValues(requests) {
-    return fetch('http://localhost:8080/sffv', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ requests }),
-    }).then(res => res.json());
-  }
+    return axios
+      .post('http://localhost:8080/sffv', { requests })
+      .then(response => response.data);
+  },
 };
 
 const { InstantSearch, findResultsState } = createInstantSearch();
