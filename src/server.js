@@ -1,14 +1,19 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import React from 'react';
 import algoliasearch from 'algoliasearch';
 import { renderToString } from 'react-dom/server';
 import { App, findResultsState } from './app';
 import template from './template';
 
-const algoliaClient = algoliasearch('latency', '6be0576ff61c053d5f9a3225e2a90f76');
+const algoliaClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
 
 const server = express();
 
+server.use(bodyParser.json());
 server.use('/assets', express.static('assets'));
 
 server.get('/', async (req, res) => {
